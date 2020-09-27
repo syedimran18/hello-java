@@ -7,12 +7,12 @@
         <server>
             <id>mycorp-releases</id>
             <username>${deploy.repo.username}</username>
-            <password>${deploy.repo.username}</password>
+            <password>${deploy.repo.password}</password>
         </server>
         <server>
             <id>mycorp-snapshots</id>
             <username>${deploy.repo.username}</username>
-            <password>${deploy.repo.username}</password>
+            <password>${deploy.repo.password}</password>
         </server>
     </servers>
 </settings>
