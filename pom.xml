@@ -58,12 +58,12 @@
         <repository>
             <id>mycorp-releases</id>
             <name>Mycorp Maven Releases Repository</name>
-            <url>http://localhost:8085/nexus/content/repositories/releases/</url>
+            <url>http://nexus:8085/nexus/content/repositories/releases/</url>
         </repository>
         <snapshotRepository>
             <id>mycorp-snapshots</id>
             <name>Mycorp Maven Snapshots Repository</name>
-            <url>http://localhost:8085/nexus/content/repositories/snapshots/</url>
+            <url>http://nexus:8085/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
