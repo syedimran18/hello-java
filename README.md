@@ -4,3 +4,14 @@ This is an extremely simple, small application that uses the Undertow embedded w
 
 I created this to use for testing in pipelines, demos and other stuff.
 
+## To build
+
+Build and deploy to GitHub:
+
+    mvn clean package
+
+Then to run:
+
+    java -jar target/.....jar
+
+
