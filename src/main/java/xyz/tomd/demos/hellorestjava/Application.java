@@ -19,7 +19,7 @@ public class Application {
                     @Override
                     public void handleRequest(final HttpServerExchange exchange) throws Exception {
                         exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/plain");
-                        exchange.getResponseSender().send("Hello, world!");
+                        exchange.getResponseSender().send("<h1>Hello, world!</h1>");
                     }
                 }).build();
         server.start();
