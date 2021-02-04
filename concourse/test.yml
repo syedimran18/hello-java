@@ -1,14 +1,27 @@
 ---
 platform: linux
 
+container_limits: {}
+
 image_resource:
-  type: docker-image
-  source: {repository: busybox}
+  type: registry-image
+  source:
+    repository: maven
+    tag: 3.6.3
+
+caches:
+  - path: src/.m2
+
+inputs:
+  - name: src
+
+outputs:
+  - name: build
+
+params:
+  app_name:
 
 run:
-  path: echo
-  args: ["Tests running!"]
-
-# Describe the inputs to this Task
-inputs:
-- name: hello-java
+  path: bash
+  args:
+  - -c mvn clean test
