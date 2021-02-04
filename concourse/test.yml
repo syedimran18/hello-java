@@ -7,7 +7,7 @@ image_resource:
 
 run:
   path: echo
-  args: ["I am building!!!!"]
+  args: ["Tests running!"]
 
 # Describe the inputs to this Task
 inputs:
