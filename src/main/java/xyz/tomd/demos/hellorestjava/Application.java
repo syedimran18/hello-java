@@ -12,15 +12,18 @@ import io.undertow.util.Headers;
  */
 public class Application {
 
-    public static void main( String[] args ) {
+    public static void main(String[] args) {
         Undertow server = Undertow.builder()
-                .addHttpListener(8080, "localhost")
-                .setHandler(new HttpHandler() {
-                    @Override
-                    public void handleRequest(final HttpServerExchange exchange) throws Exception {
-                        exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/plain");
-                        exchange.getResponseSender().send("<h1>Hello, world!</h1>");
-                    }
+                .addHttpListener(8080, "0.0.0.0")
+                .setHandler(exchange -> {
+                    exchange.getResponseHeaders()
+                            .put(Headers.CONTENT_TYPE, "text/html");
+                    exchange.getResponseSender()
+                            .send("<html>" +
+                                    "<body>" +
+                                    "<h1>Hello, world!</h1>" +
+                                    "</body>" +
+                                    "</html>");
                 }).build();
         server.start();
     }
