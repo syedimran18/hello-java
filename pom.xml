@@ -13,8 +13,8 @@
     <properties>
         <revision>0-SNAPSHOT</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <undertow.version>2.0.27.Final</undertow.version>
     </properties>
 
@@ -56,14 +56,14 @@
 
     <distributionManagement>
         <repository>
-            <id>mycorp-releases</id>
-            <name>Mycorp Maven Releases Repository</name>
-            <url>http://nexus:8085/nexus/content/repositories/releases/</url>
+            <id>github</id>
+            <name>GitHub Maven Releases Repository</name>
+	    <url>https://maven.pkg.github.com/monodot/hello-java</url>
         </repository>
         <snapshotRepository>
-            <id>mycorp-snapshots</id>
-            <name>Mycorp Maven Snapshots Repository</name>
-            <url>http://nexus:8085/nexus/content/repositories/snapshots/</url>
+            <id>github</id>
+            <name>GitHub Maven Snapshots Repository</name>
+	    <url>https://maven.pkg.github.com/monodot/hello-java</url>
         </snapshotRepository>
     </distributionManagement>
 
