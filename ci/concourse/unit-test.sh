@@ -6,7 +6,7 @@ set -e -u
 export MAVEN_REPO="$PWD/src/.m2"
 
 # Build the Java application, but without running tests just yet
-mvn -f src/pom.xml test
+mvn -X -f src/pom.xml test
 
 # Make this output available to the 'test' Job
 # cp -R src/* build
