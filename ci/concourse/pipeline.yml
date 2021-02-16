@@ -1,0 +1,32 @@
+---
+# Declare the resources that will be used in the pipeline
+# Each resource has a name
+resources:
+- name: hello-java-code
+  type: git
+  source:
+    uri: https://github.com/monodot/hello-java
+    branch: master
+
+# Jobs comprise a series of Tasks
+# e.g. "build-app" -> "build", "create-image", etc.
+jobs:
+
+# This build job will use the source code from GitHub,
+# Then execute a 'build' task which is defined in the repo.
+- name: build
+  plan:
+  - get: hello-java-code
+    trigger: true
+  - task: build
+    file: hello-java/ci/concourse/build.yml
+
+# This test job will use the source code from GitHub,
+# Then execute the 'test' task which is defined in the repo.
+- name: test
+  plan:
+  - get: hello-java-code
+    passed: [build]
+    trigger: true
+  - task: run-tests
+    file: hello-java/ci/concourse/test.yml

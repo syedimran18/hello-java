@@ -11,4 +11,4 @@ run:
 
 # Describe the inputs to this Task
 inputs:
-- name: hello-java
+- name: hello-java-code
