@@ -1,0 +1,31 @@
+---
+# A task to build a Java Maven application
+# Inspired by: <https://github.com/alphagov/pay-ci/blob/a68d8686f679a2129c3d72eb5ca51225600245a1/ci/tasks/java-tests.yml>
+
+platform: linux
+
+container_limits: {}
+
+image_resource:
+  type: registry-image
+  source:
+    repository: maven
+    tag: 3.6.3
+
+caches:
+  - path: src/.m2  # Cache Maven artifacts so we don't download the internet on every run
+
+# Describe the input Resources that this Task requires
+inputs:
+  - name: src
+
+# Describe the output Resources that this Task will produce
+# We'll have 1 output: the whole Maven directory, including target/
+outputs:
+  - name: build
+
+# What do we want this Task to do?
+# mvn clean package -DskipTests
+# Don't run tests now. We will run the tests in the 'test' task
+run:
+  path: src/ci/concourse/package.sh

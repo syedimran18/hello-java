@@ -23,12 +23,11 @@ jobs:
 
 # This build job will use the source code from GitHub,
 # Then execute a 'build' task which is defined in the repo.
-- name: build
+- name: package
   plan:
   - get: src
-    passed:
-    - build  # The 'build' job must have passed for this job to execute
     trigger: true
+    passed:
+    - unit-test  # The 'unit-test' job must have passed for this job to execute
   - task: build
-    file: hello-java-code/ci/concourse/build.yml
-
+    file: hello-java-code/ci/concourse/package.yml
