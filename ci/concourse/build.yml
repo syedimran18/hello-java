@@ -1,14 +1,31 @@
 ---
+# A task to build a Java Maven application
+# Inspired by: <https://github.com/alphagov/pay-ci/blob/a68d8686f679a2129c3d72eb5ca51225600245a1/ci/tasks/java-tests.yml>
+
 platform: linux
 
+container_limits: {}
+
 image_resource:
-  type: docker-image
-  source: {repository: busybox}
+  type: registry-image
+  source:
+    repository: maven
+    tag: 3.6.3
 
-run:
-  path: echo
-  args: ["I am building!!!!"]
+caches:
+  - path: src/.m2
 
-# Describe the inputs to this Task
+# Describe the input Resources that this Task requires
 inputs:
-- name: hello-java-code
+  - name: hello-java-code
+
+# What do we want this Task to do?
+# mvn clean package -DskipTests
+# Don't run tests now. We will run the tests in the 'test' task
+run:
+  path: bash
+  args:
+  - -ec
+  - |
+    cd hello-java-code
+    mvn clean package -DskipTests=true

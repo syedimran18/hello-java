@@ -1,4 +1,7 @@
 ---
+# A task to run unit tests
+# Inspired by: <https://github.com/alphagov/pay-ci/blob/a68d8686f679a2129c3d72eb5ca51225600245a1/ci/tasks/java-tests.yml>
+
 platform: linux
 
 container_limits: {}
