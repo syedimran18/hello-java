@@ -17,7 +17,7 @@ jobs:
 - name: build
   plan:
   - get: hello-java-code
-    trigger: true
+    trigger: true  # Trigger this job whenever 'hello-java-code' has a new version (i.e. a new Git commit)
   - task: build
     file: hello-java/ci/concourse/build.yml
 
