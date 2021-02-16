@@ -2,7 +2,7 @@
 # Declare the resources that will be used in the pipeline
 # Each resource has a name
 resources:
-- name: hello-java-code
+- name: src
   type: git
   source:
     uri: https://github.com/monodot/hello-java
@@ -12,21 +12,23 @@ resources:
 # e.g. "build-app" -> "build", "create-image", etc.
 jobs:
 
+# This test job will use the source code from GitHub,
+# Then execute the 'test' task which is defined in the repo.
+- name: unit-test
+  plan:
+  - get: src
+    trigger: true # Trigger this job whenever 'hello-java-code' has a new version (i.e. a new Git commit)
+  - task: run-unit-tests
+    file: hello-java-code/ci/concourse/unit-test.yml
+
 # This build job will use the source code from GitHub,
 # Then execute a 'build' task which is defined in the repo.
 - name: build
   plan:
-  - get: hello-java-code
-    trigger: true  # Trigger this job whenever 'hello-java-code' has a new version (i.e. a new Git commit)
-  - task: build
-    file: hello-java/ci/concourse/build.yml
-
-# This test job will use the source code from GitHub,
-# Then execute the 'test' task which is defined in the repo.
-- name: test
-  plan:
-  - get: hello-java-code
-    passed: [build]
+  - get: src
+    passed:
+    - build  # The 'build' job must have passed for this job to execute
     trigger: true
-  - task: run-tests
-    file: hello-java/ci/concourse/test.yml
+  - task: build
+    file: hello-java-code/ci/concourse/build.yml
+

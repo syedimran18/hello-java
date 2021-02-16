@@ -21,10 +21,7 @@ inputs:
 outputs:
   - name: build
 
-params:
-  app_name:
-
+# What do we want this Task to do?
+# mvn test
 run:
-  path: bash
-  args:
-  - -c mvn clean test
+  path: src/ci/concourse/unit-test.sh

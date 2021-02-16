@@ -13,19 +13,19 @@ image_resource:
     tag: 3.6.3
 
 caches:
-  - path: src/.m2
+  - path: src/.m2  # Cache Maven artifacts so we don't download the internet on every run
 
 # Describe the input Resources that this Task requires
 inputs:
-  - name: hello-java-code
+  - name: src
+
+# Describe the output Resources that this Task will produce
+# We'll have 1 output: the whole Maven directory, including target/
+outputs:
+  - name: build
 
 # What do we want this Task to do?
 # mvn clean package -DskipTests
 # Don't run tests now. We will run the tests in the 'test' task
 run:
-  path: bash
-  args:
-  - -ec
-  - |
-    cd hello-java-code
-    mvn clean package -DskipTests=true
+  path: src/ci/concourse/build.sh
