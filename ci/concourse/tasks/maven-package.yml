@@ -29,3 +29,7 @@ outputs:
 # Don't run tests now. We will run the tests in the 'test' task
 run:
   path: src/ci/concourse/tasks/maven-package.sh
+
+params:
+  REGISTRY_USERNAME: ((registry-username))
+  REGISTRY_PASSWORD: ((registry-password))

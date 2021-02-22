@@ -39,12 +39,11 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>${jib.version}</version>
                 <configuration>
-                    <!-- Using the 'debug' base image lets us use a shell in the container -->
-                    <!-- If you don't need it, just remove this block -->
-                    <!-- If you change this setting and rebuild, you'll need to `docker pull` if you want to run the latest image locally -->
-                    <from>
-                        <image>gcr.io/distroless/java:debug</image>
-                    </from>
+                    <!-- If you need a shell in the container, use the 'debug' base image -->
+                    <!-- If you change this setting and rebuild, you'll need to `docker pull` again if you want the latest image locally -->
+<!--                    <from>-->
+<!--                        <image>gcr.io/distroless/java:debug</image>-->
+<!--                    </from>-->
 
                     <!-- Where are we pushing this image to? -->
                     <to>
