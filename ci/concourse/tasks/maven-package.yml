@@ -28,4 +28,4 @@ outputs:
 # mvn clean package -DskipTests
 # Don't run tests now. We will run the tests in the 'test' task
 run:
-  path: src/ci/concourse/package.sh
+  path: src/ci/concourse/tasks/maven-package.sh

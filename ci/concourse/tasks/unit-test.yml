@@ -24,4 +24,4 @@ outputs:
 # What do we want this Task to do?
 # mvn test
 run:
-  path: src/ci/concourse/unit-test.sh
+  path: src/ci/concourse/tasks/unit-test.sh

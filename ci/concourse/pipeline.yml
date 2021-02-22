@@ -8,26 +8,29 @@ resources:
     uri: https://github.com/monodot/hello-java
     branch: master
 
-# Jobs comprise a series of Tasks
+# A pipeline has 1+ Jobs
+# Each job is composed of a series of Tasks
 # e.g. "build-app" -> "build", "create-image", etc.
 jobs:
 
-# This test job will use the source code from GitHub,
-# Then execute the 'test' task which is defined in the repo.
+# This test job will fetch the source code from GitHub,
+# Then execute the 'test' task which is defined separately in the repository.
 - name: unit-test
   plan:
   - get: src
     trigger: true # Trigger this job whenever 'hello-java-code' has a new version (i.e. a new Git commit)
   - task: run-unit-tests
-    file: src/ci/concourse/unit-test.yml
+    file: src/ci/concourse/tasks/unit-test.yml
 
-# This build job will use the source code from GitHub,
-# Then execute a 'build' task which is defined in the repo.
+# This build job will fetch the source code,
+# then execute a 'build' task which is defined separately in the repository.
 - name: package
   plan:
   - get: src
     trigger: true
     passed:
     - unit-test  # The 'unit-test' job must have passed for this job to execute
-  - task: build
-    file: src/ci/concourse/package.yml
+  - task: maven-package
+    file: src/ci/concourse/tasks/maven-package.yml
+  - task: docker-build
+    file: src/ci/concourse/tasks/docker-build.yml
