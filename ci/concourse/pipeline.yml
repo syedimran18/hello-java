@@ -32,5 +32,3 @@ jobs:
     - unit-test  # The 'unit-test' job must have passed for this job to execute
   - task: maven-package
     file: src/ci/concourse/tasks/maven-package.yml
-  - task: docker-build
-    file: src/ci/concourse/tasks/docker-build.yml

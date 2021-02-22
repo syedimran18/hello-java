@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -8,7 +9,7 @@
     <version>1.0.${revision}</version>
 
     <name>Hello Java</name>
-    <description>An extremely web service that returns Hello World!</description>
+    <description>A tiny website that says Hello World!</description>
 
     <properties>
         <revision>0-SNAPSHOT</revision>
@@ -16,6 +17,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <undertow.version>2.0.27.Final</undertow.version>
+        <jib.version>2.7.1</jib.version>
+        <image.repo>quay.io/tdonohue/hello-java</image.repo>
     </properties>
 
     <dependencies>
@@ -28,6 +31,34 @@
 
     <build>
         <plugins>
+            <!-- Use Google Jib to build a Docker image -->
+            <!-- This builds an image without needing a Dockerfile, or Docker installed! -->
+            <!-- Huzzah! -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib.version}</version>
+                <configuration>
+                    <!-- Using the 'debug' base image lets us use a shell in the container -->
+                    <!-- If you don't need it, just remove this block -->
+                    <!-- If you change this setting and rebuild, you'll need to `docker pull` if you want to run the latest image locally -->
+                    <from>
+                        <image>gcr.io/distroless/java:debug</image>
+                    </from>
+
+                    <!-- Where are we pushing this image to? -->
+                    <to>
+                        <image>${image.repo}</image>
+                        <auth>
+                            <username>${env.REGISTRY_USERNAME}</username>
+                            <password>${env.REGISTRY_PASSWORD}</password>
+                        </auth>
+                    </to>
+                </configuration>
+            </plugin>
+
+            <!-- This builds an executable jar ("jar-with-dependencies") -->
+            <!-- So we can run using: java -jar my-app.jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -53,19 +84,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Maven Releases Repository</name>
-	    <url>https://maven.pkg.github.com/monodot/hello-java</url>
-        </repository>
-        <snapshotRepository>
-            <id>github</id>
-            <name>GitHub Maven Snapshots Repository</name>
-	    <url>https://maven.pkg.github.com/monodot/hello-java</url>
-        </snapshotRepository>
-    </distributionManagement>
-
 
 </project>
