@@ -1,0 +1,114 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+objects:
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: ${NAME}
+      app.kubernetes.io/component: hello-java
+      app.kubernetes.io/instance: ${NAME}
+    name: ${NAME}
+  spec:
+    replicas: 1
+    selector:
+      deploymentconfig: ${NAME}
+    template:
+      metadata:
+        labels:
+          deploymentconfig: ${NAME}
+      spec:
+        containers:
+        - image: ${NAME}
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 180
+          name: hello-java
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 10
+    triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+        - hello-java
+        from:
+          kind: ImageStreamTag
+          name: ${NAME}:latest
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: ${NAME}
+      app.kubernetes.io/component: hello-java
+      app.kubernetes.io/instance: ${NAME}
+    name: ${NAME}
+  spec:
+    ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentconfig: ${NAME}
+    type: ClusterIP
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    labels:
+      app: ${NAME}
+      app.kubernetes.io/component: hello-java
+      app.kubernetes.io/instance: ${NAME}
+    name: ${NAME}
+  spec:
+    port:
+      targetPort: 8080
+    to:
+      kind: Service
+      name: ${NAME}
+      weight: 100
+    wildcardPolicy: None
+    tls:
+      termination: Edge
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: ${NAME}
+      app.kubernetes.io/component: hello-java
+      app.kubernetes.io/instance: ${NAME}
+    name: ${NAME}
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - name: ${IMAGE_TAG}
+      from:
+        kind: DockerImage
+        name: ${IMAGE}:${IMAGE_TAG}
+      importPolicy:
+        scheduled: true
+      referencePolicy:
+        type: Source
+parameters:
+- description: The name assigned to all of the frontend objects defined in this template.
+  displayName: Name
+  name: NAME
+  required: true
+  value: hello-java
+- description: The image to deploy, including the full registry URI
+  displayName: Image
+  name: IMAGE
+  required: true
+  value: quay.io/tdonohue/hello-java
+- description: The tag of the image to deploy
+  displayName: Image Tag
+  name: IMAGE_TAG
+  required: true
+  value: latest

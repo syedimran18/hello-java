@@ -34,5 +34,6 @@ jobs:
   - task: maven-package
     file: src/ci/concourse/tasks/maven-package.yml
     vars:
+      image-name: ((image-name))
       registry-username: ((registry-username))
       registry-password: ((registry-password))
