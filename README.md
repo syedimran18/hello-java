@@ -33,17 +33,44 @@ This uses [Google Jib][jib] to build the image. It doesn't build an executable J
 
 This application includes a sample pipeline for _Concourse CI_.
 
+Set up concourse credentials, and log in:
+
 ```
-# List all pipelines
+export CONCOURSE_EXTERNAL_URL=https://concourse.eggworld.example.com
+export CONCOURSE_USER=username
+export CONCOURSE_PASSWORD=password
 
-# Create the overall pipeline
-fly -t tutorial set-pipeline -c ci/concourse/pipeline.yml -p hello-java
+fly -t tutorial login -k -c ${CONCOURSE_EXTERNAL_URL} \
+    -u ${CONCOURSE_USER} -p ${CONCOURSE_PASSWORD}
+```
 
-# Unpause the job - it will go grey
+Now configure your username and password for the container registry so that Jib can push the Docker image when it's built (I'm using Quay.io):
+
+```
+export REGISTRY_USERNAME=your-quay-username
+export REGISTRY_PASSWORD=your-quay-password
+```
+
+Next, create the pipeline, setting your registry credentials as variables (`-v`):
+
+```
+fly -t tutorial set-pipeline -c ci/concourse/pipeline.yml -p hello-java \ 
+    -v registry-username=${REGISTRY_USERNAME} \ 
+    -v registry-password=${REGISTRY_PASSWORD}
+```
+
+**NB:** This demo pipeline uses simple variable interpolation. This means that these sensitive credentials are set explicitly in the pipeline when you run `fly set-pipeline`. For a production setup, you should fetch credentials from something like _Vault_ instead.
+
+Now unpause the pipeline - it will turn grey:
+
+```
 fly -t tutorial unpause-pipeline -p hello-java
+```
 
-# Run
-fly -t tutorial unpause-job --job hello-java/build
+Finally run the job in the web console, make a Git commit, or run it from the command line and follow the logs:
+
+```
+fly -t tutorial trigger-job -j hello-java/unit-test --watch
 ```
 
 [jib]: https://github.com/GoogleContainerTools/jib
