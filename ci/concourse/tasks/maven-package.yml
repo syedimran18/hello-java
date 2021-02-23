@@ -24,7 +24,7 @@ outputs:
 # mvn compile jib:build -DskipTests
 # Don't run tests now. We have already run the tests in the 'test' task
 run:
-  path: src/ci/concourse/tasks/maven-package.sh
+  path: /bin/sh
   args:
   - -c
   - |
