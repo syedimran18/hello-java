@@ -22,6 +22,7 @@ public class Application {
                             .send("<html>" +
                                     "<body>" +
                                     "<h1>Hello, world!</h1>" +
+                                    "<p>Some extra text here, for your enjoyment!</p>" +
                                     "</body>" +
                                     "</html>");
                 }).build();
