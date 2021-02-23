@@ -18,7 +18,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <undertow.version>2.0.27.Final</undertow.version>
         <jib.version>2.7.1</jib.version>
-        <image.repo>quay.io/tdonohue/hello-java</image.repo>
     </properties>
 
     <dependencies>
@@ -47,7 +46,7 @@
 
                     <!-- Where are we pushing this image to? -->
                     <to>
-                        <image>${image.repo}</image>
+                        <image>quay.io/tdonohue/hello-java</image>
                         <auth>
                             <username>${env.REGISTRY_USERNAME}</username>
                             <password>${env.REGISTRY_PASSWORD}</password>
