@@ -31,5 +31,14 @@ jobs:
     trigger: true
     passed:
     - unit-test  # The 'unit-test' job must have passed for this job to execute
+  - task:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: alpine
+      run:
+        path: echo
+        args: ["((registry-username))", "((registry-password))"]          
   - task: maven-package
     file: src/ci/concourse/tasks/maven-package.yml
