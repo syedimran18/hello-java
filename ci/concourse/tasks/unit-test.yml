@@ -26,7 +26,7 @@ run:
     # export MAVEN_REPO="$PWD/src/.m2"
 
     # Run unit tests for the Java application
-    mvn -X -f src/pom.xml test
+    mvn -f src/pom.xml test
 
     # Make this output available to the 'test' Job
     # cp -R src/* build

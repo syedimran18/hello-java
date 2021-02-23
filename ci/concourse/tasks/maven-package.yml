@@ -29,8 +29,11 @@ run:
   - -c
   - |
     # Package the app. We assume that we've already run unit tests in the previous Job
-    mvn -f src/pom.xml compile jib:build -DskipTests=true
+    mvn -B -f src/pom.xml compile jib:build -DskipTests=true
 
+# These vars MUST be defined in the parent pipeline, and
+# declared as 'vars', which are then passed to this Task
+# when it runs.
 params:
   REGISTRY_USERNAME: ((registry-username))
   REGISTRY_PASSWORD: ((registry-password))
