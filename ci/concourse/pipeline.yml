@@ -3,13 +3,14 @@
 # Each resource has a name
 resources:
 - name: src
+  icon: github
   type: git
   source:
     uri: https://github.com/monodot/hello-java
     branch: master
 
-# A pipeline has 1+ Jobs
-# Each job is composed of a series of Tasks
+# A pipeline has 1 or more Jobs
+# Each Job is composed of a series of Tasks
 # e.g. "build-app" -> "build", "create-image", etc.
 jobs:
 

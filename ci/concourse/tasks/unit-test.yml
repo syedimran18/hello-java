@@ -3,25 +3,30 @@
 # Inspired by: <https://github.com/alphagov/pay-ci/blob/a68d8686f679a2129c3d72eb5ca51225600245a1/ci/tasks/java-tests.yml>
 
 platform: linux
-
 container_limits: {}
-
 image_resource:
   type: registry-image
   source:
     repository: maven
     tag: 3.6.3
-
 caches:
-  - path: src/.m2
-
+  - path: $HOME/.m2/repository
 inputs:
   - name: src
-
 outputs:
   - name: build
 
 # What do we want this Task to do?
-# mvn test
 run:
-  path: src/ci/concourse/tasks/unit-test.sh
+  path: /bin/sh
+  args:
+  - -c
+  - |
+    # Set the Maven artifact cache directory inside 'src' so it can be cached by Concourse
+    # export MAVEN_REPO="$PWD/src/.m2"
+
+    # Run unit tests for the Java application
+    mvn -X -f src/pom.xml test
+
+    # Make this output available to the 'test' Job
+    # cp -R src/* build
