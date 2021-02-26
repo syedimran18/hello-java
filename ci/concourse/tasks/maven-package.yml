@@ -38,4 +38,3 @@ run:
   - -c
   - |
     mvn -B -f git/pom.xml compile jib:buildTar -DskipTests -Djib.outputPaths.tar=$(pwd)/image/hello-java.tar
-``
