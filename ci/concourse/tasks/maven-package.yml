@@ -25,7 +25,7 @@ inputs:
   - name: build
 
 outputs:
-  - name: container_image
+  - name: image
 
 # What do we want this task to do?
 # Tell Concourse the commands it should execute, in this Task
@@ -38,14 +38,14 @@ run:
   - |
     # Package the app. We assume that we've already run unit tests in the previous Job
 
-    mvn -B -f build/pom.xml compile jib:build -Djib.to.image=${IMAGE_NAME} -DskipTests=true
+    # mvn -B -f build/pom.xml compile jib:build -Djib.to.image=${IMAGE_NAME} -DskipTests=true
 
     # An extra step here builds the image as a .tar, in case you
     # want to do something else with the image, after it's been pushed.
     # Writes the image to the 'container_image' directory which is also specified as an 'output' above
 
-    mkdir container_image
-    mvn -B -f build/pom.xml jib:buildTar -Djib.outputPaths.tar=container_image/app.tar
+    mkdir image
+    mvn -B -f build/pom.xml compile jib:buildTar -Djib.outputPaths.tar=image/hello-java.tar
 
 # Set any environment variables that the build will need.
 # These vars MUST be defined first in the parent pipeline, declared as 'vars'.

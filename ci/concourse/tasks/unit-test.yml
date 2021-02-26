@@ -20,7 +20,7 @@ caches:
 
 # We will provide an input called 'src' to this Task
 inputs:
-  - name: src
+  - name: git
 outputs:
   - name: build
 
@@ -31,7 +31,7 @@ run:
   args:
   - -c
   - |
-    mvn -f src/pom.xml test
+    mvn -f git/pom.xml test
 
     # Make this output available to the 'test' Job
-    cp -R src/* build
+    cp -R git/* build

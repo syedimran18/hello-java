@@ -2,12 +2,20 @@
 # Declare the resources that will be used in the pipeline
 # Each resource has a name
 resources:
-- name: src
+- name: git
   icon: github
   type: git
   source:
     uri: https://github.com/monodot/hello-java
     branch: master
+- name: hello-java-image
+  type: registry-image
+  icon: docker
+  source:
+    repository: ((image-name))
+    username: ((registry-username))
+    password: ((registry-password))
+    tag: latest
 
 # A pipeline has 1 or more Jobs
 # Each Job is composed of a series of Tasks
@@ -18,22 +26,19 @@ jobs:
 # Then execute the 'test' task which is defined separately in the repository.
 - name: unit-test
   plan:
-  - get: src
+  - get: git
     trigger: true # Trigger this job whenever 'hello-java-code' has a new version (i.e. a new Git commit)
   - task: run-unit-tests
     file: src/ci/concourse/tasks/unit-test.yml
 
 # This build job will fetch the source code,
 # then execute a 'build' task which is defined separately in the repository.
-- name: package
+- name: package-and-push
   plan:
-  - get: src
-    trigger: true
-    passed:
-    - unit-test  # The 'unit-test' job must have passed for this job to execute
   - task: maven-package
+    # passed:
+    # - unit-test  # The 'unit-test' job must have passed for this job to execute
     file: src/ci/concourse/tasks/maven-package.yml
-    vars:
-      image-name: ((image-name))
-      registry-username: ((registry-username))
-      registry-password: ((registry-password))
+  # Take the image built in the previous task and push it to a Docker registry
+  - put: hello-java-image
+    params: {image: image/hello-java.tar}
