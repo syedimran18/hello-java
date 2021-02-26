@@ -23,6 +23,7 @@ public class Application {
                                     "<body>" +
                                     "<h1>Hello, world!</h1>" +
                                     "<p>Some extra text here, for your enjoyment!!!</p>" +
+                                    "<p>Soviet Science Fiction movies are the best.</p>" +
                                     "</body>" +
                                     "</html>");
                 }).build();
