@@ -53,7 +53,7 @@ run:
 # The vars are then passed to this Task.
 # Finally, the vars are set as ENV vars in this container, when it runs the Task.
 # These vars allow us to set the Docker image destination, and the user/pass for the registry.
-params:
-  REGISTRY_USERNAME: ((registry-username))
-  REGISTRY_PASSWORD: ((registry-password))
-  IMAGE_NAME: ((image-name))
+# params:
+#   REGISTRY_USERNAME: ((registry-username))
+#   REGISTRY_PASSWORD: ((registry-password))
+#   IMAGE_NAME: ((image-name))
