@@ -21,7 +21,9 @@ To build and push an OCI (Docker) image - e.g. to run on Kubernetes - set your r
     export REGISTRY_USERNAME=youruser@example.com
     export REGISTRY_PASSWORD=registrypassssssswd
 
-    mvn compile jib:build -Dimage=quay.io/youruser/yourimage
+    mvn compile jib:build -Djib.to.image=quay.io/youruser/yourimage:latest \
+        -Djib.to.auth.username=$REGISTRY_USERNAME \
+        -Djib.to.auth.password=$REGISTRY_PASSWORD
 
 This uses [Google Jib][jib] to build the image. It doesn't build an executable JAR, but instead splits the build outputs into image layers (classes, libs, resources, etc.) and sets the container entrypoint to something like:
 
