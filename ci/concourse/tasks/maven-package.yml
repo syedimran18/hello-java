@@ -1,6 +1,5 @@
 ---
-# A task to build a Java Maven application
-# Inspired by: <https://github.com/alphagov/pay-ci/blob/a68d8686f679a2129c3d72eb5ca51225600245a1/ci/tasks/java-tests.yml>
+# A task to build a Docker image for a Java app with Jib
 
 # Task definition
 
@@ -27,33 +26,16 @@ inputs:
   - name: git
 
 outputs:
-  - name: image # Concourse creates this directory for us.
+  - name: image # Concourse creates this directory for us. This will hold the OCI image .tar
 
 # What do we want this task to do?
 # Tell Concourse the commands it should execute, in this Task
-# Package the app. We assume that we've already run unit tests in the previous Job
-#     mvn compile jib:build ... -DskipTests
+# Build an OCI image as a .tar file. Skip unit tests, because we've already run them in the previous Job
+#     mvn compile jib:buildTar ... -DskipTests
 run:
   path: /bin/sh
   args:
   - -c
   - |
-    # Package the app. We assume that we've already run unit tests in the previous Job
-
-    # mvn -B -f git/pom.xml compile jib:build -Djib.to.image=${IMAGE_NAME} -DskipTests=true
-
-    # An extra step here builds the image as a .tar, in case you
-    # want to do something else with the image, after it's been pushed.
-    # Writes the image to the 'image' directory which is also specified as an 'output' above
-
-    mvn -B -f git/pom.xml compile jib:buildTar -Djib.outputPaths.tar=$(pwd)/image/hello-java.tar
-
-# Set any environment variables that the build will need.
-# These vars MUST be defined first in the parent pipeline, declared as 'vars'.
-# The vars are then passed to this Task.
-# Finally, the vars are set as ENV vars in this container, when it runs the Task.
-# These vars allow us to set the Docker image destination, and the user/pass for the registry.
-# params:
-#   REGISTRY_USERNAME: ((registry-username))
-#   REGISTRY_PASSWORD: ((registry-password))
-#   IMAGE_NAME: ((image-name))
+    mvn -B -f git/pom.xml compile jib:buildTar -DskipTests -Djib.outputPaths.tar=$(pwd)/image/hello-java.tar
+``
