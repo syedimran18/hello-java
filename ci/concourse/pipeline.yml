@@ -39,7 +39,7 @@ jobs:
 - name: package
   plan:
   - get: git # Concourse is stateless and needs to be given an external input to this Job.
-    # But it will not fetch source from Git again. From docs:
+    # But it will not fetch the HEAD, it'll use the same git commit that passed through the previous Job.
     # https://concourse-ci.org/jobs.html#schema.step.get-step.passed
     # "When specified, only the versions of the resource that made it through the given
     # list of jobs (AND-ed together) will be considered when triggering and fetching."
