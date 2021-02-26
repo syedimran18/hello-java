@@ -23,6 +23,7 @@ caches:
 # This also makes sure that we follow the same Git commit that triggered the first job
 inputs:
   - name: build
+  - name: src  # Also declare 'src' as an input here, as it will be given to us.
 
 outputs:
   - name: image
