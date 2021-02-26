@@ -40,18 +40,18 @@
                 <configuration>
                     <!-- If you need a shell in the container, use the 'debug' base image -->
                     <!-- If you change this setting and rebuild, you'll need to `docker pull` again if you want the latest image locally -->
-<!--                    <from>-->
-<!--                        <image>gcr.io/distroless/java:debug</image>-->
-<!--                    </from>-->
+                    <!--<from>
+                        <image>gcr.io/distroless/java:debug</image>
+                    </from>-->
 
-                    <!-- Where are we pushing this image to? -->
-                    <to>
+                    <!-- If you want Jib to push to a registry then configure it here -->
+                    <!--<to>
                         <image>quay.io/tdonohue/hello-java</image>
                         <auth>
                             <username>${env.REGISTRY_USERNAME}</username>
                             <password>${env.REGISTRY_PASSWORD}</password>
                         </auth>
-                    </to>
+                    </to>-->
                 </configuration>
             </plugin>
 
