@@ -31,7 +31,7 @@ This uses [Google Jib][jib] to build the image. It doesn't build an executable J
 
 ### Concourse CI
 
-This application includes a sample pipeline for _Concourse CI_.
+This application includes a sample pipeline for _Concourse CI_ that builds a Docker image with [Jib][jib] and pushes it to an external registry.
 
 When finished, it looks like this:
 
@@ -79,7 +79,7 @@ fly -t tutorial unpause-pipeline -p hello-java
 Finally run the job in the web console, make a Git commit, or run it from the command line and follow the logs:
 
 ```
-fly -t tutorial trigger-job -j hello-java/unit-test --watch
+fly -t tutorial trigger-job -j hello-java/unit --watch
 ```
 
 #### Optionally deploy the application to OpenShift
