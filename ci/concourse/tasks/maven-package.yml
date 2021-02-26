@@ -45,7 +45,7 @@ run:
     # want to do something else with the image, after it's been pushed.
     # Writes the image to the 'image' directory which is also specified as an 'output' above
 
-    mvn -B -f git/pom.xml compile jib:buildTar -Djib.outputPaths.tar=image/hello-java.tar
+    mvn -B -f git/pom.xml compile jib:buildTar -Djib.outputPaths.tar=$(pwd)/image/hello-java.tar
 
 # Set any environment variables that the build will need.
 # These vars MUST be defined first in the parent pipeline, declared as 'vars'.
