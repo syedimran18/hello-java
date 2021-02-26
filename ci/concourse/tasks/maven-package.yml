@@ -18,12 +18,12 @@ image_resource:
 caches:
   - path: $HOME/.m2/repository
 
-# We will provide an input called 'build' to this Task
-# This will contain the source, and the compiled and tested classes
-# This also makes sure that we follow the same Git commit that triggered the first job
+# We will provide an input called 'git' to this Task
+# This causes Concourse to git checkout a specific commit.
+# It also allows us to execute this step independently, for a specific Git commit.
+# However, the parent pipeline only runs this task when the previous 'unit' job has passed.
 inputs:
-  - name: build
-  - name: src  # Also declare 'src' as an input here, as it will be given to us.
+  - name: git
 
 outputs:
   - name: image
