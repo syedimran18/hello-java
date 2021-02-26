@@ -13,16 +13,16 @@ To compile the application and build a fat-jar (`jar-with-dependencies`):
 Then, to run:
 
     java -jar target/hello-java-1.0.0-SNAPSHOT.jar
-    
+
 ## To build a Docker image
 
 To build and push an OCI (Docker) image - e.g. to run on Kubernetes - set your registry credentials in environment variables and run `jib:build` with the image repository that you want to push to:
 
     export REGISTRY_USERNAME=youruser@example.com
     export REGISTRY_PASSWORD=registrypassssssswd
-    
+
     mvn compile jib:build -Dimage=quay.io/youruser/yourimage
-    
+
 This uses [Google Jib][jib] to build the image. It doesn't build an executable JAR, but instead splits the build outputs into image layers (classes, libs, resources, etc.) and sets the container entrypoint to something like:
 
     java -cp /app/resources:/app/classes:/app/libs/* xyz.tomd.demos.hellorestjava.Application
@@ -32,6 +32,10 @@ This uses [Google Jib][jib] to build the image. It doesn't build an executable J
 ### Concourse CI
 
 This application includes a sample pipeline for _Concourse CI_.
+
+When finished, it looks like this:
+
+![pipeline](./concourse.png)
 
 #### Set up the pipeline
 
@@ -56,8 +60,8 @@ export REGISTRY_PASSWORD=your-quay-password
 Next, create the pipeline, setting your registry credentials as variables (`-v`):
 
 ```
-fly -t tutorial set-pipeline -c ci/concourse/pipeline.yml -p hello-java \ 
-    -v registry-username=${REGISTRY_USERNAME} \ 
+fly -t tutorial set-pipeline -c ci/concourse/pipeline.yml -p hello-java \
+    -v registry-username=${REGISTRY_USERNAME} \
     -v registry-password=${REGISTRY_PASSWORD} \
     -v image-name=yourregistry.example.com/youruser/hello-java
 ```
