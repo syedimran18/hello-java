@@ -29,7 +29,56 @@ This uses [Google Jib][jib] to build the image. It doesn't build an executable J
 
     java -cp /app/resources:/app/classes:/app/libs/* xyz.tomd.demos.hellorestjava.Application
 
+
+## Kubernetes
+
+### Helm chart
+
+A Helm chart is included with this application. To deploy the app onto Kubernetes, first install the Helm client and then run:
+
+    helm install mydemo hello-java
+
+This will create a _Release_ of this app called `mydemo`:
+
+    $ kubectl get pod -w
+    NAME                                READY   STATUS    RESTARTS   AGE
+    mydemo-hello-java-6fb5d686c-67lqw   0/1     Running   0          14s
+
 ## CI
+
+### Jenkins on OpenShift
+
+This application includes a sample pipeline for _Jenkins_, intended to be used with Jenkins on _OpenShift_.
+
+To set it up:
+
+1.  Fork this repo.
+
+2.  Deploy Jenkins from the OpenShift application catalogue.
+
+3.  Create a _Pipeline_ job, choose _Pipeline source from SCM_ and configure the URL to this repo (or your own fork, if you've forked this repo.)
+
+4.  Edit the `openshift-build.yml` file and set the Build target to point to the registry where you want to push the finished image, e.g.:
+
+        output:
+            to:
+                kind: DockerImage
+                name: docker.io/YOURUSERNAME/hello-java:latest
+
+5.  Create a BuildConfig object, in the same namespace as Jenkins:
+
+        oc apply -f openshift-build.yml
+
+6.  Add a secret to authenticate to your external registry and link it to the `builder` service account:
+
+        oc create secret docker-registry my-secret \ 
+            --docker-server=docker.io \
+            --docker-username=YOURUSERNAME \ 
+            --docker-password=xxx \ 
+
+        oc secrets link builder my-secret --for=mount
+
+7.  Run the pipeline in Jenkins.
 
 ### Concourse CI
 

@@ -1,6 +1,13 @@
-FROM openjdk:8
+# Build the application first using Maven
+FROM maven:3.8-openjdk-11 as build
+WORKDIR /app
+COPY . .
+RUN mvn install
 
-RUN curl -OL https://github.com/monodot/hello-java/raw/master/bin/hello-java-1.0.0-SNAPSHOT.jar
-
-CMD ["java", "-jar", "hello-java-1.0.0-SNAPSHOT.jar"]
-
+# Inject the JAR file into a new container to keep the file small
+FROM openjdk:8-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/hello-java-*.jar /app/app.jar
+EXPOSE 8080
+ENTRYPOINT ["sh", "-c"]
+CMD ["java -jar app.jar"]

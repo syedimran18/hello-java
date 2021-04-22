@@ -1,0 +1,10 @@
+# Default values for hello-java-build.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+build:
+  target: docker.io/monodot/hello-java:latest
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
