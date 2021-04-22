@@ -38,6 +38,13 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>${jib.version}</version>
                 <configuration>
+                    <container>
+                        <!-- Define the port manually here, because Google Jib isn't a mind-reader you know -->
+                        <ports>
+                            <port>8080</port>
+                        </ports>
+                    </container>
+
                     <!-- If you need a shell in the container, use the 'debug' base image -->
                     <!-- If you change this setting and rebuild, you'll need to `docker pull` again if you want the latest image locally -->
                     <!--<from>
